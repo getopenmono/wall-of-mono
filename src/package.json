@@ -1,0 +1,35 @@
+{
+  "name": "wall-of-mono",
+  "description": "Template for NodeJS-base web services",
+  "version": "0.1.0",
+  "homepage": "https://github.com/getopenmono/wall-of-mono#readme",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getopenmono/wall-of-mono.git"
+  },
+  "author": "Jens Peter Secher",
+  "bugs": {
+    "url": "https://github.com/getopenmono/wall-of-mono/issues"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "nsrun": "^1.1.2",
+    "standard": "^10.0.2",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "helmet": "^3.6.1"
+  },
+  "main": "app.js",
+  "scripts": {
+    "lint": "standard",
+    "unittest": "mocha server/**/*_test.js lib/**/*_test.js",
+    "postinstall": "./setup-node-env.sh",
+    "test": "nsrun lint && nsrun unittest",
+    "start": "node app.js"
+  }
+}
