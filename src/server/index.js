@@ -13,15 +13,15 @@ const express = require('express')
 const app = express()
 
 /*
- * Form passing.
- */
-const formidable = require('formidable')
-
-/*
  * Securing headers.
  */
 const helmet = require('helmet')
 app.use(helmet())
+
+/*
+ * Form passing.
+ */
+const formidable = require('formidable')
 
 /*
  * Administrative API

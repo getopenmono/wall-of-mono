@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  staging:
+    image: monolit/wall-of-mono:latest
+    restart: always
+    ports:
+      - "7777:3000"
