@@ -15,8 +15,8 @@ const app = express()
 /*
  * Securing headers.
  */
-const helmet = require('helmet')
-app.use(helmet())
+// const helmet = require('helmet')
+// app.use(helmet())
 
 /*
  * Form passing.
