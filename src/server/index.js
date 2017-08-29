@@ -4,6 +4,7 @@
  * Configuration
  */
 const config = require('server/config')
+const constants = require('server/constants')
 
 /*
  * Web server.
@@ -12,21 +13,15 @@ const express = require('express')
 const app = express()
 
 /*
+ * Form passing.
+ */
+const formidable = require('formidable')
+
+/*
  * Securing headers.
  */
 const helmet = require('helmet')
 app.use(helmet())
-
-/*
- * All request bodies must be JSON.
- */
-const parser = require('body-parser')
-app.use(parser.json({
-  // Always assume JSON.
-  type: '*/*',
-  // Allow lone values.
-  strict: false
-}))
 
 /*
  * Administrative API
@@ -55,8 +50,60 @@ app.get('/crash', (req, res, next) => { // eslint-disable-line no-unused-vars
 })
 
 /*
- * [Insert API routes here.]
+ * Static web pages.
  */
+app.use(express.static('public'))
+
+/*
+ * Wall structure.
+ */
+
+function createInitialWall () {
+  let wall = ''
+  for (let i = 0; i < 32; ++i) {
+    const x = i % 8
+    const y = Math.floor(i / 8)
+    let mono =
+      String.fromCharCode(48 + x) +
+      String.fromCharCode(48 + y) +
+      constants.initialWall.foregroundColors[i] +
+      constants.initialWall.backgroundColors[i] +
+      constants.initialWall.letters[i]
+    if (mono.length !== 15) {
+      throw new Error(`Initial wall setup wrong for Mono ${i}: ${mono}`)
+    }
+    if (mono.charCodeAt(14) <= 0x7F) {
+      mono += '='
+    }
+    wall += mono
+  }
+  return wall
+}
+
+let wall = createInitialWall()
+
+/*
+ * API routes.
+ */
+app.post('/set', (req, res, next) => {
+  const form = new formidable.IncomingForm()
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      console.log(`error: ${err}`)
+      throw err
+    }
+    console.log(fields)
+    res.status(201)
+    res.type('text/plain')
+    res.send('Success!')
+  })
+})
+
+app.get('/get', (req, res, next) => {
+  res.type('text/plain')
+  res.charset = 'utf-8'
+  res.send(wall)
+})
 
 /*
  * Error handlers

@@ -15,6 +15,7 @@
   "devDependencies": {
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
+    "nodemon": "^1.11.0",
     "nsrun": "^1.1.2",
     "standard": "^10.0.2",
     "supertest": "^3.0.0"
@@ -22,14 +23,16 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "formidable": "^1.1.1",
     "helmet": "^3.6.1"
   },
   "main": "app.js",
   "scripts": {
     "lint": "standard",
-    "unittest": "mocha server/**/*_test.js lib/**/*_test.js",
     "postinstall": "./setup-node-env.sh",
+    "serve": "nodemon --exec node --no-stdin app.js --watch .",
+    "start": "node app.js",
     "test": "nsrun lint && nsrun unittest",
-    "start": "node app.js"
+    "unittest": "mocha server/**/*_test.js lib/**/*_test.js"
   }
 }

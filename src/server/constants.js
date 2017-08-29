@@ -1,7 +1,7 @@
 'use strict'
 
-exports = {
-  initialForgroundColors: [
+exports.initialWall = {
+  foregroundColors: [
     '012345',
     '075739',
     '098765',
@@ -33,10 +33,9 @@ exports = {
     'BBAAFF',
     'C81B23',
     'EE00FF',
-    'EEDD11',
-    'FFEEBB'
+    'EEAD11'
   ],
-  initialBackgroundColors: [
+  backgroundColors: [
     '789012',
     '876543',
     '890123',
@@ -68,13 +67,12 @@ exports = {
     '456789',
     '654321',
     '678901',
-    '739414',
-    '765432'
+    '739414'
   ],
-  initialLines: [
-    'ABCDEFGH',
-    'IJKLMNOP',
-    'QRSTUVWX',
-    'YZÆØÅ -.'
+  letters: [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+    'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+    'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+    'Y', 'Z', 'Æ', 'Ø', 'Å', ' ', '-', '.'
   ]
 }

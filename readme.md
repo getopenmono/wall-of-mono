@@ -4,12 +4,18 @@ Interactively control a wall of 4 x 8 Monos.
 
 ## Endpoints
 
+| Endpoint  | Function |
+| --------- | -------- |
+| `/`       | Returns the HTML page for the UI for using `/set` endpoint |
+| `/get`    | Returns concise representation of all Monos on the wall. |
+| `/set`    | Post with fields `x`, `y`, `foreground`, `background`, `letter` to set a specific Mono.  |
+
 The web service has the following admistrative endpoints:
 
 | Endpoint  | Function |
 | --------- | -------- |
-| `/status` | Returns the service status as JSON |
-| `/pid`    | Returns the service's process id   |
+| `/status` | Returns the service status as JSON. |
+| `/pid`    | Returns the service's process id.   |
 
 ----
 

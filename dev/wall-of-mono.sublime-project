@@ -26,10 +26,10 @@
   [ { "path": ".."
     , "folder_exclude_patterns":
       [ "src/node_modules"
-      , "src/coverage"
       ]
     , "file_exclude_patterns":
       [ "src/npm-debug.log"
+      , "src/package-lock.json"
       , "src/server/config.js"
       ]
     }
