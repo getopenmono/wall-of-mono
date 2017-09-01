@@ -6,7 +6,7 @@ const request = require('supertest')
 const constants = require('server/constants')
 
 describe('wall of mono API', () => {
-  const app = require('server')
+  const app = require('server').http
   describe('/get', () => {
     it('should give a board with all letters initially', done => {
       request(app)

@@ -21,11 +21,13 @@ const hostname = require('os').hostname
 function Defaults () {
   const environment = process.env.NODE_ENV || 'development'
   const port = tcp.normalizePort(process.env.PORT) || 3000
+  const rawTcpPort = tcp.normalizePort(process.env.RAWPORT) || 48879
   const niceHostName = hostname().replace('.domain_not_set.invalid', '')
   return {
     environment,
     hostname: niceHostName,
-    port
+    port,
+    rawTcpPort
   }
 }
 
@@ -38,6 +40,7 @@ const defaults = new Defaults()
 exports.server = {
   environment: defaults.environment,
   port: defaults.port,
+  rawTcpPort: defaults.rawTcpPort,
   hostname: 'service.example.com',
   testTimeoutMs: 20 * 1000
 }

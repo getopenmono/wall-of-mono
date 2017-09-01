@@ -224,4 +224,25 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.json({errors: [returnedError]})
 })
 
-module.exports = app
+/*
+ * Raw TCP endpoint.
+ */
+const net = require('net')
+
+const rawTcpServer = net.createServer(client => {
+  console.log('client connect')
+  client.on('end', () => {
+    console.log('client disconnect')
+  })
+  client.on('data', msg => {
+    console.log('client sent:')
+    console.log(msg.toString())
+  })
+  client.write(wall)
+  client.end()
+})
+
+module.exports = {
+  http: app,
+  tcp: rawTcpServer
+}
