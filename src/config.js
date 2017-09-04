@@ -41,6 +41,6 @@ exports.server = {
   environment: defaults.environment,
   port: defaults.port,
   rawTcpPort: defaults.rawTcpPort,
-  hostname: 'service.example.com',
+  hostname: 'wall.openmono.com',
   testTimeoutMs: 20 * 1000
 }
