@@ -74,9 +74,6 @@ function createInitialWall () {
     if (mono.length !== 15) {
       throw new Error(`Initial wall setup wrong for Mono ${i}: ${mono}`)
     }
-    if (mono.charCodeAt(14) <= 0x7F) {
-      mono += '='
-    }
     wall += mono
   }
   return wall
@@ -137,16 +134,18 @@ app.post('/set', (req, res, next) => {
 
 function updateMono (values) {
   console.log(values)
-  const index = (values.y * 8 + values.x) * 16
-  wall = wall.substring(0, index) + generateOneMono(values) + wall.substring(index + 16)
+  const index = (values.y * 8 + values.x) * 15
+  wall = wall.substring(0, index) + generateOneMono(values) + wall.substring(index + 15)
 }
 
 function generateOneMono (values) {
-  return String.fromCharCode(48 + values.x) +
-      String.fromCharCode(48 + values.y) +
-      values.foreground +
-      values.background +
-      values.letter
+  let encoding =
+    String.fromCharCode(48 + values.x) +
+    String.fromCharCode(48 + values.y) +
+    values.foreground +
+    values.background +
+    values.letter
+  return encoding
 }
 
 function toPaddedHexString (num, len) {
@@ -157,7 +156,15 @@ function toPaddedHexString (num, len) {
 app.get('/get', (req, res, next) => {
   res.type('text/plain')
   res.charset = 'utf-8'
-  res.send(wall)
+  let utf8 = ''
+  for (let i = 0; i < 32; ++i) {
+    const oneMono = wall.substr(i * 15, 15)
+    utf8 += oneMono
+    if (oneMono[15] < 0x7F) {
+      utf8 += '='
+    }
+  }
+  res.send(utf8)
 })
 
 /*
