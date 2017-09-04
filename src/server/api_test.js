@@ -52,11 +52,12 @@ describe('wall of mono API', () => {
         .expect(res => {
           let base = 0
           for (let i = 0; i < 32; ++i) {
-            if (res.text[base] === '=') {
-              ++base
-            }
             let mono = res.text.substr(base, 15)
             base += 15
+            if (mono.codePointAt(14) < 0x7F) {
+              expect(res.text[base]).to.equal('=')
+              ++base
+            }
             const x = i % 8
             const y = Math.floor(i / 8)
             expect(mono[0]).to.equal(String.fromCharCode(48 + x))
@@ -96,12 +97,12 @@ describe('wall of mono API', () => {
         .expect(res => {
           let base = 0
           for (let i = 0; i < 32; ++i) {
-            if (res.text[base] === '=') {
-              ++base
-            }
             let mono = res.text.substr(base, 15)
             base += 15
-            console.log(`"${mono}" : ${mono.length}`)
+            if (mono.codePointAt(14) < 0x7F) {
+              expect(res.text[base]).to.equal('=')
+              ++base
+            }
             const x = i % 8
             const y = Math.floor(i / 8)
             expect(mono[0]).to.equal(String.fromCharCode(48 + x))

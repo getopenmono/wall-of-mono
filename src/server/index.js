@@ -156,16 +156,20 @@ function toPaddedHexString (num, len) {
 app.get('/get', (req, res, next) => {
   res.type('text/plain')
   res.charset = 'utf-8'
+  res.send(internalWallToUtf8Ready())
+})
+
+function internalWallToUtf8Ready () {
   let utf8 = ''
   for (let i = 0; i < 32; ++i) {
     const oneMono = wall.substr(i * 15, 15)
     utf8 += oneMono
-    if (oneMono[15] < 0x7F) {
+    if (oneMono.codePointAt(14) < 0x7F) {
       utf8 += '='
     }
   }
-  res.send(utf8)
-})
+  return utf8
+}
 
 /*
  * Error handlers
@@ -245,7 +249,7 @@ const rawTcpServer = net.createServer(client => {
     console.log('client sent:')
     console.log(msg.toString())
   })
-  client.write(wall)
+  client.write(internalWallToUtf8Ready())
   client.end()
 })
 
