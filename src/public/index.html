@@ -46,22 +46,37 @@
         </div>
       </div>
     </div>
-    <form action="/set" method="post" enctype="multipart/form-data">
-      <fieldset>
-        <label for="x">x:</label>
-        <input type="text" id="x" name="x" placeholder="0"/>
-        <label for="y">y:</label>
-        <input type="text" id="y" name="y" placeholder="0"/>
-        <label for="foreground">foreground:</label>
-        <input type="text" id="foreground" name="foreground" placeholder="DEAD12"/>
-        <label for="background">background:</label>
-        <input type="text" id="background" name="background" placeholder="09BEEF"/>
-        <label for="letter">letter:</label>
-        <input type="text" id="letter" name="letter" placeholder="Å"/>
-        <br/>
-        <input type="submit" value="Send"/>
-      </fieldset>
-    </form>
+    <div style="padding: 10px 10px 10px 10px">
+      <form action="/set" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <div class="form-group">
+          <label for="x" class="col-xs-3 control-label">x:</label>
+          <div class="col-xs-9">
+            <input type="text" id="x" name="x" placeholder="0-7" class="form-control"/>
+          </div>
+          <label for="y" class="col-xs-3 control-label">y:</label>
+          <div class="col-xs-9">
+            <input type="text" id="y" name="y" placeholder="0-3" class="form-control"/>
+          </div>
+          <label for="foreground" class="col-xs-3 control-label">foreground:</label>
+          <div class="col-xs-9">
+            <input type="text" id="foreground" name="foreground" placeholder="DEAD12" class="form-control"/>
+          </div>
+          <label for="background" class="col-xs-3 control-label">background:</label>
+          <div class="col-xs-9">
+            <input type="text" id="background" name="background" placeholder="09BEEF" class="form-control"/>
+          </div>
+          <label for="letter" class="col-xs-3 control-label">letter:</label>
+          <div class="col-xs-9">
+            <input type="text" id="letter" name="letter" placeholder="Å" class="form-control"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-offset-3 col-xs-9">
+            <input type="submit" class="btn btn-default" value="Send"/>
+          </div>
+        </div>
+      </form>
+    </div>
   </body>
   <footer class="footer navbar-fixed-bottom">
     <div class="container">
