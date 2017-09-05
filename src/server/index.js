@@ -94,8 +94,8 @@ app.post('/set', (req, res, next) => {
     console.log(fields)
     const x = parseInt(fields.x, 10)
     const y = parseInt(fields.y, 10)
-    const foreground = parseInt(fields.foreground, 16)
-    const background = parseInt(fields.background, 16)
+    const foreground = parseInt(fields.foreground.substr(1), 16)
+    const background = parseInt(fields.background.substr(1), 16)
     const letter = fields.letter
     let errors = []
     if (_.isNaN(x) || x < 0 || x > 7) {
@@ -104,10 +104,10 @@ app.post('/set', (req, res, next) => {
     if (_.isNaN(y) || y < 0 || y > 3) {
       errors.push(`Wrong Y coordinate, expected number 0-7 but got ${fields.y}`)
     }
-    if (_.isNaN(foreground) || foreground < 0 || foreground > 0xFFFFFF) {
+    if (fields.foreground.charAt(0) !== '#' || _.isNaN(foreground) || foreground < 0 || foreground > 0xFFFFFF) {
       errors.push(`Wrong foreground color, expected RGB hex number but got ${fields.foreground}`)
     }
-    if (_.isNaN(background) || background < 0 || background > 0xFFFFFF) {
+    if (fields.background.charAt(0) !== '#' || _.isNaN(background) || background < 0 || background > 0xFFFFFF) {
       errors.push(`Wrong background color, expected RGB hex number but got ${fields.background}`)
     }
     if ((letter < 'A' || letter > 'Z') && letter !== 'Æ' && letter !== 'Ø' && letter !== 'Å' && letter !== '_' && letter !== '.' && letter !== '-') {
