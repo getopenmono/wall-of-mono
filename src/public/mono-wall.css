@@ -1,0 +1,143 @@
+@font-face {
+	font-family: 'UltimaProBlack';
+	src: url('UltimaProBlack.eot');
+	src: local('☺'), url('UltimaProBlack.woff') format('woff'), url('UltimaProBlack.ttf') format('truetype'), url('UltimaProBlack.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'UltimaProLight';
+	src: url('UltimaProLt.eot');
+	src: local('☺'), url('UltimaProLt.woff') format('woff'), url('UltimaProLt.ttf') format('truetype'), url('UltimaProLt.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'UltimaPro';
+	src: url('UltimaPro.eot');
+	src: local('☺'), url('UltimaPro.woff') format('woff'), url('UltimaPro.ttf') format('truetype'), url('UltimaPro.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'UltimaProBoldItalic';
+	src: url('UltimaPro-BoldItalic.eot');
+	src: local('☺'), url('UltimaPro-BoldItalic.woff') format('woff'), url('UltimaPro-BoldItalic.ttf') format('truetype'), url('UltimaPro-BoldItalic.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+body {
+	font-family: "Lato";
+	margin-right: 0;
+	font-weight: 200;
+}
+header {
+	font-family: "UltimaPro";
+	font-weight: lighter;
+}
+.monoFont {
+	font-family: "UltimaProBlack";
+}
+.kioskFont {
+	font-family: "UltimaProLight";
+}
+.monoLogo {
+	font-family: "UltimaPro";
+	font-weight: bold;
+	font-size: 23px;
+	color: rgb(149, 165, 166);
+	text-transform: lowercase;
+}
+body {
+	padding-top: 58px;
+	padding-bottom: 42px;
+}
+.navbar-brand {
+	padding-top: 12px;
+}
+.navbar .nav > li > a {
+	font-size: 13px;
+}
+a:hover,
+a:focus,
+.app-details-link > a:hover,
+.app-details-link > a:focus {
+	color: rgb(94,94,94);
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus,
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus,
+.navbar .nav > li > a:focus,
+.navbar .nav > li > a:hover {
+	color: rgb(133,147,161);
+}
+.app-name {
+	font-weight: bold;
+	font-size: 200%
+}
+.app-headline {
+}
+.app-description {
+}
+.app-details-link > a {
+	color: rgb(133,147,161);
+}
+.download .icon img {
+	width: 75px;
+}
+.download .details .os-name {
+	font-size: 38px;
+	margin-top: 8px;
+	margin-bottom: 0px;
+	padding-left: 100px;
+}
+.downloadlink {
+	padding-left: 27px;
+}
+.downloads {
+	margin-top: 10px;
+	padding-top: 10px;
+	border-top: 1px solid #ccc;
+}
+.app-row-first {
+	padding-top: 30px;
+}
+.app-row {
+	border-top: 1px solid #ccc;
+	margin-top: 20px;
+	padding-top: 30px;
+}
+.app-row-last {
+	border-top: 1px solid #ccc;
+	margin-top: 20px;
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+.app-details-separator {
+	border-top: 1px solid #ccc;
+	margin-top: 20px;
+	padding-top: 15px;
+}
+.app-details-bottom-separator {
+	margin-top: 20px;
+}
+img.orientation-vertical {
+    height: 220px;
+    width: 176px;
+    object-fit: contain;
+}
+img.orientation-horizontal {
+    height: 176px;
+    width: 220px;
+    object-fit: contain;
+}
+/* Larger-than-phone-size (XS) adjustment. */
+@media (min-width: 768px) {
+.sm-pull-right {
+	float: right;
+}
+.app-name-col {
+	margin-top: -16px;
+}
+}
