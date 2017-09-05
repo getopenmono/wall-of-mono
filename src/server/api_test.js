@@ -42,9 +42,7 @@ describe('wall of mono API', () => {
       .field('foreground', '#DEAD12')
       .field('background', '#01BEEF')
       .field('letter', 'Ø')
-      .expect(201)
-      .expect('Content-Type', /text/)
-      .expect(/Success/)
+      .expect(302)
       .then(() => {
         service
         .get('/get')
@@ -87,9 +85,7 @@ describe('wall of mono API', () => {
       .field('foreground', '#123456')
       .field('background', '#987654')
       .field('letter', 'X')
-      .expect(201)
-      .expect('Content-Type', /text/)
-      .expect(/Success/)
+      .expect(302)
       .then(() => {
         service
         .get('/get')

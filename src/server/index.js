@@ -126,9 +126,7 @@ app.post('/set', (req, res, next) => {
       background: toPaddedHexString(background, 6),
       letter: (letter === '_') ? ' ' : letter
     })
-    res.status(201)
-    res.type('text/plain')
-    res.send('Success!')
+    res.redirect('success.html')
   })
 })
 
