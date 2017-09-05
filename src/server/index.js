@@ -110,8 +110,8 @@ app.post('/set', (req, res, next) => {
     if (_.isNaN(background) || background < 0 || background > 0xFFFFFF) {
       errors.push(`Wrong background color, expected RGB hex number but got ${fields.background}`)
     }
-    if ((letter < 'A' || letter > 'Z') && letter !== 'Æ' && letter !== 'Ø' && letter !== 'Å' && letter !== ' ' && letter !== '.' && letter !== '-') {
-      errors.push(`Wrong letter, expected A-ZÆØÅ.- or blank but got ${fields.letter}`)
+    if ((letter < 'A' || letter > 'Z') && letter !== 'Æ' && letter !== 'Ø' && letter !== 'Å' && letter !== '_' && letter !== '.' && letter !== '-') {
+      errors.push(`Wrong letter, expected A-ZÆØÅ.-_ but got ${fields.letter}`)
     }
     if (errors.length > 0) {
       res.status(400)
@@ -124,7 +124,7 @@ app.post('/set', (req, res, next) => {
       y,
       foreground: toPaddedHexString(foreground, 6),
       background: toPaddedHexString(background, 6),
-      letter
+      letter: (letter === '_') ? ' ' : letter
     })
     res.status(201)
     res.type('text/plain')
