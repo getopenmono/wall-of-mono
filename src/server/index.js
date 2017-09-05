@@ -8,6 +8,73 @@ const constants = require('server/constants')
 const _ = require('lodash')
 
 /*
+ * Wall structure.
+ */
+let wall = createInitialWall()
+
+function createInitialWall () {
+  let wall = ''
+  for (let i = 0; i < 32; ++i) {
+    const x = i % 8
+    const y = Math.floor(i / 8)
+    let mono = generateOneMono({
+      x,
+      y,
+      foreground: constants.initialWall.foregroundColors[i],
+      background: constants.initialWall.backgroundColors[i],
+      letter: constants.initialWall.letters[i]
+    })
+    if (mono.length !== 15) {
+      throw new Error(`Initial wall setup wrong for Mono ${i}: ${mono}`)
+    }
+    wall += mono
+  }
+  return wall
+}
+
+function internalWallToUtf8Ready () {
+  let utf8 = ''
+  for (let i = 0; i < 32; ++i) {
+    const oneMono = wall.substr(i * 15, 15)
+    utf8 += oneMono
+    if (oneMono.codePointAt(14) < 0x7F) {
+      utf8 += '='
+    }
+  }
+  return utf8
+}
+
+/*
+ * Raw TCP endpoint.
+ */
+const net = require('net')
+
+let clients = []
+
+const rawTcpServer = net.createServer(client => {
+  const clientIndex = clients.length
+  console.log(`client ${clientIndex} connect`)
+  clients.push(client)
+  client.on('end', () => {
+    const index = clients.indexOf(client)
+    clients.splice(index, 1)
+    console.log(`client ${index} disconnect`)
+  })
+  client.on('data', msg => {
+    const index = clients.indexOf(client)
+    console.log(`client ${index} sent:`)
+    console.log(msg.toString())
+  })
+  client.write(internalWallToUtf8Ready())
+})
+
+function tellAllTcpClients () {
+  clients.forEach(client => {
+    client.write(internalWallToUtf8Ready())
+  })
+}
+
+/*
  * Web server.
  */
 const express = require('express')
@@ -56,32 +123,6 @@ app.get('/crash', (req, res, next) => { // eslint-disable-line no-unused-vars
 app.use(express.static('public'))
 
 /*
- * Wall structure.
- */
-
-function createInitialWall () {
-  let wall = ''
-  for (let i = 0; i < 32; ++i) {
-    const x = i % 8
-    const y = Math.floor(i / 8)
-    let mono = generateOneMono({
-      x,
-      y,
-      foreground: constants.initialWall.foregroundColors[i],
-      background: constants.initialWall.backgroundColors[i],
-      letter: constants.initialWall.letters[i]
-    })
-    if (mono.length !== 15) {
-      throw new Error(`Initial wall setup wrong for Mono ${i}: ${mono}`)
-    }
-    wall += mono
-  }
-  return wall
-}
-
-let wall = createInitialWall()
-
-/*
  * API routes.
  */
 app.post('/set', (req, res, next) => {
@@ -126,6 +167,7 @@ app.post('/set', (req, res, next) => {
       background: toPaddedHexString(background, 6),
       letter: (letter === '_') ? ' ' : letter
     })
+    tellAllTcpClients()
     res.redirect('success.html')
   })
 })
@@ -156,18 +198,6 @@ app.get('/get', (req, res, next) => {
   res.charset = 'utf-8'
   res.send(internalWallToUtf8Ready())
 })
-
-function internalWallToUtf8Ready () {
-  let utf8 = ''
-  for (let i = 0; i < 32; ++i) {
-    const oneMono = wall.substr(i * 15, 15)
-    utf8 += oneMono
-    if (oneMono.codePointAt(14) < 0x7F) {
-      utf8 += '='
-    }
-  }
-  return utf8
-}
 
 /*
  * Error handlers
@@ -231,24 +261,6 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     console.log(returnedError)
   }
   res.json({errors: [returnedError]})
-})
-
-/*
- * Raw TCP endpoint.
- */
-const net = require('net')
-
-const rawTcpServer = net.createServer(client => {
-  console.log('client connect')
-  client.on('end', () => {
-    console.log('client disconnect')
-  })
-  client.on('data', msg => {
-    console.log('client sent:')
-    console.log(msg.toString())
-  })
-  client.write(internalWallToUtf8Ready())
-  client.end()
 })
 
 module.exports = {
