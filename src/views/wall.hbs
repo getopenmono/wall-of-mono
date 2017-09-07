@@ -1,0 +1,8 @@
+<table class="wall">
+    {{#each rows}}
+    <tr class="wall-row">
+        {{#each this}}
+        <td class="wall-column" style="background:#{{background}}; foreground:#{{foreground}}">{{letter}}</td>
+        {{/each}}
+    {{/each}}
+</table>

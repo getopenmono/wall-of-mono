@@ -44,6 +44,24 @@ function internalWallToUtf8Ready () {
   return utf8
 }
 
+function internalWallToDiscreteObjects () {
+  let rows = []
+  for (let y = 0; y < 4; ++y) {
+    let columns = []
+    for (let x = 0; x < 8; ++x) {
+      columns.push({
+        x: wall.substr(((y * 8) + x) * 15 + 0, 1),
+        y: wall.substr(((y * 8) + x) * 15 + 1, 1),
+        foreground: wall.substr(((y * 8) + x) * 15 + 2, 6),
+        background: wall.substr(((y * 8) + x) * 15 + 8, 6),
+        letter: wall.substr(((y * 8) + x) * 15 + 14, 1)
+      })
+    }
+    rows.push(columns)
+  }
+  return rows
+}
+
 /*
  * Raw TCP endpoint.
  */
@@ -79,6 +97,13 @@ function tellAllTcpClients () {
  */
 const express = require('express')
 const app = express()
+const exphbs = require('express-handlebars')
+var hbs = exphbs.create({
+  defaultLayout: 'main',
+  extname: '.hbs'
+})
+app.engine('.hbs', hbs.engine)
+app.set('view engine', '.hbs')
 
 /*
  * Securing headers.
@@ -122,6 +147,10 @@ app.get('/crash', (req, res, next) => { // eslint-disable-line no-unused-vars
  */
 app.use(express.static('public'))
 
+app.get('/wall', (req, res) => {
+  res.render('wall', {rows: internalWallToDiscreteObjects()})
+})
+
 /*
  * API routes.
  */
@@ -151,7 +180,8 @@ app.post('/set', (req, res, next) => {
     if (fields.background.charAt(0) !== '#' || _.isNaN(background) || background < 0 || background > 0xFFFFFF) {
       errors.push(`Wrong background color, expected RGB hex number but got ${fields.background}`)
     }
-    if ((letter < 'A' || letter > 'Z') && letter !== 'Æ' && letter !== 'Ø' && letter !== 'Å' && letter !== '_' && letter !== '.' && letter !== '-') {
+    if ((letter < 'A' || letter > 'Z') && letter !== 'Æ' && letter !== 'Ø' &&
+        letter !== 'Å' && letter !== '_' && letter !== '.' && letter !== '-') {
       errors.push(`Wrong letter, expected A-ZÆØÅ.-_ but got ${fields.letter}`)
     }
     if (errors.length > 0) {

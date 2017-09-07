@@ -122,6 +122,17 @@ a:focus,
 .app-details-bottom-separator {
 	margin-top: 20px;
 }
+
+.wall {
+	width: 100%;
+}
+.wall-row {
+	width: 100%;
+}
+.wall-column {
+	text-align: center;
+}
+
 img.orientation-vertical {
     height: 220px;
     width: 176px;
