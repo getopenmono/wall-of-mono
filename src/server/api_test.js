@@ -114,4 +114,50 @@ describe('wall of mono API', () => {
       })
     })
   })
+  describe('/letters', () => {
+    const service = request(app)
+    it('should accept a form with letters', done => {
+      const letters = 'GÅ_IND_PÅWALL.___OPENMONO.COM_'
+      service
+      .post('/letters')
+      .field('letters', letters)
+      .expect(302)
+      .then(() => {
+        service
+        .get('/get')
+        .expect(200)
+        .expect(res => {
+          let base = 0
+          for (let i = 0; i < 32; ++i) {
+            if (i < letters.length) {
+              let mono = res.text.substr(base, 15)
+              base += 15
+              if (mono.codePointAt(14) < 0x7F) {
+                expect(res.text[base]).to.equal('=')
+                ++base
+              }
+              const letter = mono.substr(14, 1)
+              const expected = letters.substr(i, 1)
+              expect(letter).to.equal(expected)
+            }
+          }
+        })
+        .end(done)
+      })
+    })
+    it('should reject bad letters', done => {
+      service
+      .post('/letters')
+      .field('letters', '1')
+      .expect(400)
+      .end(done)
+    })
+    it('should reject wrong fields', done => {
+      service
+      .post('/letters')
+      .field('blabla', 'HEJ')
+      .expect(400)
+      .end(done)
+    })
+  })
 })

@@ -180,8 +180,7 @@ app.post('/set', (req, res, next) => {
     if (fields.background.charAt(0) !== '#' || _.isNaN(background) || background < 0 || background > 0xFFFFFF) {
       errors.push(`Wrong background color, expected RGB hex number but got ${fields.background}`)
     }
-    if ((letter < 'A' || letter > 'Z') && letter !== 'Æ' && letter !== 'Ø' &&
-        letter !== 'Å' && letter !== '_' && letter !== '.' && letter !== '-') {
+    if (isLetterBad(letter)) {
       errors.push(`Wrong letter, expected A-ZÆØÅ.-_ but got ${fields.letter}`)
     }
     if (errors.length > 0) {
@@ -198,6 +197,42 @@ app.post('/set', (req, res, next) => {
       letter: (letter === '_') ? ' ' : letter
     })
     tellAllTcpClients()
+    res.redirect('success.html')
+  })
+})
+
+function isLetterBad (letter) {
+  return ((letter < 'A' || letter > 'Z') && letter !== 'Æ' && letter !== 'Ø' &&
+      letter !== 'Å' && letter !== '_' && letter !== '.' && letter !== '-')
+}
+
+app.post('/letters', (req, res, next) => {
+  const form = new formidable.IncomingForm()
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      return next({
+        status: 400,
+        title: `Parse error: ${err}`
+      })
+    }
+    const letters = fields.letters
+    if (!letters) {
+      return next({
+        status: 400,
+        title: `Expected field: letters`
+      })
+    }
+    for (let i = 0; i < letters.length && i < 32; ++i) {
+      const letter = letters[i]
+      if (isLetterBad(letter)) {
+        return next({
+          status: 400,
+          title: `bad letter ${letter}`
+        })
+      }
+      wall = wall.substring(0, i * 15 + 14) + letter + wall.substring(i * 15 + 15)
+      // console.log(wall)
+    }
     res.redirect('success.html')
   })
 })
