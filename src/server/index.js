@@ -238,6 +238,14 @@ app.post('/letters', (req, res, next) => {
   })
 })
 
+app.post('/flip', (req, res, next) => {
+  for (let i = 0; i < 32; ++i) {
+    console.log(wall)
+    wall = wall.substr(0, i * 15 + 2) + wall.substr(i * 15 + 8, 6) + wall.substr(i * 15 + 2, 6) + wall.substr(i * 15 + 14)
+  }
+  res.redirect('success.html')
+})
+
 function updateMono (values) {
   console.log(values)
   const index = (values.y * 8 + values.x) * 15
