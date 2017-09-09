@@ -230,7 +230,8 @@ app.post('/letters', (req, res, next) => {
           title: `bad letter ${letter}`
         })
       }
-      wall = wall.substring(0, i * 15 + 14) + letter + wall.substring(i * 15 + 15)
+      const c = (letter === '_') ? ' ' : letter
+      wall = wall.substring(0, i * 15 + 14) + c + wall.substring(i * 15 + 15)
       // console.log(wall)
     }
     res.redirect('success.html')
