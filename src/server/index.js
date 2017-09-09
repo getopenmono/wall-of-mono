@@ -234,6 +234,7 @@ app.post('/letters', (req, res, next) => {
       wall = wall.substring(0, i * 15 + 14) + c + wall.substring(i * 15 + 15)
       // console.log(wall)
     }
+    tellAllTcpClients()
     res.redirect('success.html')
   })
 })
@@ -243,6 +244,7 @@ app.post('/flip', (req, res, next) => {
     console.log(wall)
     wall = wall.substr(0, i * 15 + 2) + wall.substr(i * 15 + 8, 6) + wall.substr(i * 15 + 2, 6) + wall.substr(i * 15 + 14)
   }
+  tellAllTcpClients()
   res.redirect('success.html')
 })
 
